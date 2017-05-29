@@ -3,132 +3,91 @@
 namespace Kamwoz\WubookAPIBundle\Handler;
 
 use Kamwoz\WubookAPIBundle\Exception\WubookException;
+use Kamwoz\WubookAPIBundle\Model\Room;
 
-class RoomHandler extends BaseHandler
-{
+class RoomHandler extends BaseHandler {
+
     /**
      * Fetch all rooms from wubook
      *
      * @return mixed
      * @throws WubookException
      */
-    public function fetchRooms()
-    {
+    public function fetchRooms() {
         return parent::defaultRequestHandler('fetch_rooms', []);
     }
 
     /**
      * Add new room to wubook
      *
-     * @param $woodoo
-     * @param $name
-     * @param $beds
-     * @param $price
-     * @param $avail
-     * @param $shortname
-     * @param $defboard
-     * @param array $names
-     * @param array $descriptions
-     * @param array $boards
-     * @param int $rtype
-     * @param int $min_price
-     * @param int $max_price
+     * @param Room $room
      *
      * @return int
      * @throws WubookException
      */
-    public function addRoom(
-        $woodoo,
-        $name,
-        $beds,
-        $price,
-        $avail,
-        $shortname,
-        $defboard,
-        $names = array(),
-        $descriptions = array(),
-        $boards = array(),
-        $rtype = 1,
-        $min_price = 0,
-        $max_price = 0
-    )
-    {
+    public function addRoom(Room $room): int {
         return parent::defaultRequestHandler('new_room', [
-            $woodoo,
-            $name,
-            $beds,
-            $price,
-            $avail,
-            $shortname,
-            $defboard,
-            $names,
-            $descriptions,
-            $boards,
-            $rtype,
-            $min_price,
-            $max_price
+                    $room->getWoodoo(),
+                    $room->getName(),
+                    $room->getBeds(),
+                    $room->getPrice(),
+                    $room->getAvail(),
+                    $room->getShortname(),
+                    $room->getDefboard(),
+                    $room->getNames(),
+                    $room->getDescriptions(),
+                    $room->getBoards(),
+                    $room->getRoomType(),
+                    $room->getMinPrice(),
+                    $room->getMaxPrice(),
         ]);
     }
 
     /**
      * Update existing room on wubook
      *
-     * @param $roomId
-     * @param $name
-     * @param $beds
-     * @param $price
-     * @param $avail
-     * @param $shortname
-     * @param $defboard
-     * @param array $names
-     * @param array $descriptions
-     * @param array $boards
-     * @param int $min_price
-     * @param int $max_price
+     * @param Room $room
      *
      * @return int
      * @throws WubookException
      */
-    public function updateRoom(
-        $roomId,
-        $name,
-        $beds,
-        $price,
-        $avail,
-        $shortname,
-        $defboard,
-        $names = array(),
-        $descriptions = array(),
-        $boards = array(),
-        $min_price = 0,
-        $max_price = 0
-    )
-    {
-        return parent::defaultRequestHandler('mod_room', func_get_args());
+    public function updateRoom(Room $room): int {
+        return parent::defaultRequestHandler('mod_room', [
+                    $room->getId(),
+                    $room->getName(),
+                    $room->getBeds(),
+                    $room->getPrice(),
+                    $room->getAvail(),
+                    $room->getShortname(),
+                    $room->getDefboard(),
+                    $room->getNames(),
+                    $room->getDescriptions(),
+                    $room->getBoards(),
+                    $room->getMinPrice(),
+                    $room->getMaxPrice(),
+        ]);
     }
 
     /**
      * Delete existing room from wubook
      *
-     * @param $roomId
+     * @param Room $room
      *
      * @return int
      * @throws WubookException
      */
-    public function deleteRoom($roomId)
-    {
-        return parent::defaultRequestHandler('del_room', [$roomId]);
+    public function deleteRoom(Room $room): int {
+        return parent::defaultRequestHandler('del_room', [$room->getId()]);
     }
 
     /**
-     * @param $roomId
+     * @param Room $room
      *
      * @return null
      * @throws WubookException
      */
-    public function roomImages($roomId)
-    {
-        return parent::defaultRequestHandler('room_images', [$roomId]);
+    public function roomImages(Room $room) {
+        return parent::defaultRequestHandler('room_images', [$room->getId()]);
     }
 
     /**
@@ -137,8 +96,7 @@ class RoomHandler extends BaseHandler
      * @return mixed
      * @throws WubookException
      */
-    public function pushUpdateActivation( $url )
-    {
+    public function pushUpdateActivation($url) {
         return parent::defaultRequestHandler('push_update_activation', [$url]);
     }
 
@@ -146,8 +104,8 @@ class RoomHandler extends BaseHandler
      * @return mixed
      * @throws WubookException
      */
-    public function pushUpdateUrl()
-    {
+    public function pushUpdateUrl() {
         return parent::defaultRequestHandler('push_update_url', []);
     }
+
 }
