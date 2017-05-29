@@ -17,9 +17,17 @@ class Room {
     private $names;
     private $descriptions;
     private $boards;
-    private $rtype = 1;
-    private $minPrice = 0;
-    private $maxPrice = 0;
+    private $rtype;
+    private $minPrice;
+    private $maxPrice;
+    private $occupancy;
+    private $men;
+    private $children;
+    private $board;
+    private $descreasedAvailbaility;
+    private $rtypeName;
+    private $anchorate;
+    private $subroom;
 
     public function __construct() {
         $this->names = [];
@@ -28,6 +36,36 @@ class Room {
         $this->rtype = 1;
         $this->minPrice = 0;
         $this->maxPrice = 0;
+        $this->children = 0;
+    }
+
+    /**
+     * 
+     * @param array $data
+     * @return Room
+     */
+    public static function createFromData(array $data): Room {
+        $room = new $this;
+        $room->setId($data['id'])
+                ->setName($data['name'])
+                ->setShortname($data['shortname'])
+                ->setOccupancy($data['occupancy'])
+                ->setMen($data['men'])
+                ->setChildren($data['children'])
+                ->setAnchorate($data['anchorate'])
+                ->setSubroom($data['children'])
+                ->setPrice($data['price'])
+                ->setAvail($data['availability'])
+                ->setBoard($data['board'])
+                ->setBoards($data['boards'])
+                ->setWoodoo($data['woodoo'])
+                ->setDescreasedAvailbaility($data['dec_avail'])
+                ->setMinPrice($data['min_price'])
+                ->setMaxPrice($data['max_price'])
+                ->setRoomType($data['rtype'])
+                ->setRoomTypeName($data['rtype_name']);
+
+        return $room;
     }
 
     public function getId() {
@@ -166,7 +204,7 @@ class Room {
         return $this;
     }
 
-    public function setRooType($rtype) {
+    public function setRoomType($rtype) {
         $this->rtype = $rtype;
         return $this;
     }
@@ -186,6 +224,78 @@ class Room {
 
     public function setMaxPrice(float $maxPrice) {
         $this->maxPrice = $maxPrice;
+        return $this;
+    }
+
+    public function getOccupancy() {
+        return $this->occupancy;
+    }
+
+    public function getMen() {
+        return $this->men;
+    }
+
+    public function getBoard() {
+        return $this->board;
+    }
+
+    public function getDescreasedAvailbaility() {
+        return $this->descreasedAvailbaility;
+    }
+
+    public function getRoomTypeName() {
+        return $this->rtypeName;
+    }
+
+    public function setOccupancy($occupancy) {
+        $this->occupancy = $occupancy;
+        return $this;
+    }
+
+    public function setMen($men) {
+        $this->men = $men;
+        return $this;
+    }
+
+    public function setBoard($board) {
+        $this->board = $board;
+        return $this;
+    }
+
+    public function setDescreasedAvailbaility($descreasedAvailbaility) {
+        $this->descreasedAvailbaility = $descreasedAvailbaility;
+        return $this;
+    }
+
+    public function setRoomTypeName($rtypeName) {
+        $this->rtypeName = $rtypeName;
+        return $this;
+    }
+
+    public function getChildren() {
+        return $this->children;
+    }
+
+    public function setChildren($children) {
+        $this->children = $children;
+        return $this;
+    }
+
+    public function getAnchorate() {
+        return $this->anchorate;
+    }
+
+    public function getSubroom() {
+        return $this->subroom;
+    }
+
+    public function setAnchorate($anchorate) {
+        $this->anchorate = $anchorate;
+        return $this;
+    }
+
+    public function setSubroom($subroom) {
+        $this->subroom = $subroom;
         return $this;
     }
 

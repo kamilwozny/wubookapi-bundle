@@ -10,11 +10,20 @@ class RoomHandler extends BaseHandler {
     /**
      * Fetch all rooms from wubook
      *
-     * @return mixed
+     * @return array
      * @throws WubookException
      */
-    public function fetchRooms() {
-        return parent::defaultRequestHandler('fetch_rooms', []);
+    public function fetchRooms(): array {
+        $allData = parent::defaultRequestHandler('fetch_rooms', []); 
+        if(empty($allData)){
+            return [];
+        }
+        
+        foreach($allData as &$roomData){
+            $roomData = Room::createFromData($roomData);
+        }
+        
+        return $allData;
     }
 
     /**
