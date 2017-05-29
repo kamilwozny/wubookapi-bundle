@@ -1,36 +1,37 @@
 {
-  "name": "domtomproject/wubookapi-bundle",
-  "type": "symfony-bundle",
-  "description": "Bundle which helps handle wubook.net API",
-  "keywords": ["symfony2", "wubook", "api"],
-  "homepage": "https://github.com/kamwoz/wubookapi-bundle",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Kamil Woźny",
-      "email": "kamil@kwozny.pl"
+    "name": "domtomproject/wubookapi-bundle",
+    "type": "symfony-bundle",
+    "description": "Bundle which helps handle wubook.net API",
+    "keywords": ["symfony2", "wubook", "api"],
+    "homepage": "https://github.com/kamwoz/wubookapi-bundle",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Kamil Woźny",
+            "email": "kamil@kwozny.pl"
+        },
+        {
+            "name": "Tomasz Bęben",
+            "email": "tomek.beben@gmail.com"
+        },
+        {
+            "name": "Damian Zschille",
+            "email": "crunkowiec@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "symfony/yaml": ">=2.3",
+        "phpxmlrpc/phpxmlrpc": "4.0"
     },
-    {
-      "name": "Tomasz Bęben",
-      "email": "tomek.beben@gmail.com"
+    "require-dev": {
+        "sensio/framework-extra-bundle": "~2.1|~3.0",
+        "symfony/symfony": ">=3.0"
     },
-    {
-      "name": "Damian Zschille",
-      "email": "crunkowiec@gmail.com"
+    "autoload": {
+        "psr-4": {
+            "Kamwoz\\WubookAPIBundle\\": ""
+        }
     }
-  ],
-  "require": {
-    "php": ">=7.0",
-    "symfony/yaml": ">=2.3",
-    "phpxmlrpc/phpxmlrpc": "4.0"
-  },
-  "require-dev": {
-    "sensio/framework-extra-bundle": "~2.1|~3.0",
-    "symfony/symfony": ">=3.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Kamwoz\\WubookAPIBundle\\": ""
-    }
-  }
 }
