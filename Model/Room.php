@@ -4,30 +4,30 @@ namespace Kamwoz\WubookAPIBundle\Model;
 
 use Kamwoz\WubookAPIBundle\Exception\WubookModelException;
 
-class Room {
+class Room implements RoomInterface {
 
-    private $id;
-    private $woodoo;
-    private $name;
-    private $beds;
-    private $price;
-    private $avail;
-    private $shortname;
-    private $defboard;
-    private $names;
-    private $descriptions;
-    private $boards;
-    private $rtype;
-    private $minPrice;
-    private $maxPrice;
-    private $occupancy;
-    private $men;
-    private $children;
-    private $board;
-    private $descreasedAvailbaility;
-    private $rtypeName;
-    private $anchorate;
-    private $subroom;
+    protected $id;
+    protected $woodoo;
+    protected $name;
+    protected $beds;
+    protected $price;
+    protected $avail;
+    protected $shortname;
+    protected $defboard;
+    protected $names;
+    protected $descriptions;
+    protected $boards;
+    protected $rtype;
+    protected $minPrice;
+    protected $maxPrice;
+    protected $occupancy;
+    protected $men;
+    protected $children;
+    protected $board;
+    protected $descreasedAvailbaility;
+    protected $rtypeName;
+    protected $anchorate;
+    protected $subroom;
 
     public function __construct() {
         $this->names = [];
@@ -44,8 +44,8 @@ class Room {
      * @param array $data
      * @return Room
      */
-    public static function createFromData(array $data): Room {
-        $room = new $this;
+    public static function createFromData(array $data): RoomInterface {
+        $room = new self();
         $room->setId($data['id'])
                 ->setName($data['name'])
                 ->setShortname($data['shortname'])
