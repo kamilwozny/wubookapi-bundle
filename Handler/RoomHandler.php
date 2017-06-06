@@ -9,19 +9,21 @@ use ReflectionClass;
 use LogicException;
 
 class RoomHandler extends BaseHandler {
+    
+    private $model;
+    
+    public function __construct(string $model) {
+        $this->model = $model;
+    }
 
-    /**
+        /**
      * Fetch all rooms from wubook
      *
      * @return array
      * @throws WubookException
      */
-    public function fetchRooms(string $className = null): array {
-        if(empty($className)){
-            $className = Room::class;
-        }
-        
-        $reflection = new ReflectionClass($className);
+    public function fetchRooms(): array {
+        $reflection = new ReflectionClass($this->model);
         if(!$reflection->implementsInterface(RoomInterface::class)){
             throw new LogicException('Room model must implements ' . RoomInterface::class);
         }
@@ -32,7 +34,7 @@ class RoomHandler extends BaseHandler {
         }
         
         foreach($allData as &$roomData){
-            $roomData = $className::createFromData($roomData);
+            $roomData = $this->model::createFromData($roomData);
         }
         
         return $allData;

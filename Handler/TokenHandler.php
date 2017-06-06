@@ -4,27 +4,18 @@ namespace Kamwoz\WubookAPIBundle\Handler;
 
 use Kamwoz\WubookAPIBundle\Exception\WubookException;
 use Kamwoz\WubookAPIBundle\Utils\ResponseDecoder;
+use Kamwoz\WubookAPIBundle\Model\TokenData;
 
-class TokenHandler extends BaseHandler
-{
+class TokenHandler extends BaseHandler {
+
     private $username;
-
     private $password;
-
     private $provider_key;
 
-    /**
-     * TokenHandler constructor.
-     *
-     * @param $username
-     * @param $password
-     * @param $provider_key
-     */
-    public function __construct($username, $password, $provider_key)
-    {
-        $this->username = strval($username);
-        $this->password = strval($password);
-        $this->provider_key = strval($provider_key);
+    public function setTokenData(TokenData $tokenData) {
+        $this->username = $tokenData->getUsername();
+        $this->password = $tokenData->getPassword();
+        $this->provider_key = $tokenData->getProviderKey();
     }
 
     /**
@@ -32,8 +23,12 @@ class TokenHandler extends BaseHandler
      * @return mixed
      * @throws WubookException
      */
-    public function acquireToken()
-    {
+    public function acquireToken() {
+        
+        if($this->isNotCredentialsSetted()){
+            throw new WubookException('Credentials for wubook api must be setted!');
+        }
+        
         $args = [
             $this->username,
             $this->password,
@@ -45,12 +40,15 @@ class TokenHandler extends BaseHandler
         $this->client->tokenProvider->setToken($token);
         return $token;
     }
+    
+    private function isNotCredentialsSetted(){
+        return empty($this->username) || empty($this->password) || empty($this->provider_key);
+    }
 
     /**
      * @return bool true if token is valid
      */
-    public function isCurrentTokenValid()
-    {
+    public function isCurrentTokenValid() {
         $response = $this->client->request('is_token_valid', [], true, false, false);
         $parsedResponse = ResponseDecoder::decodeResponse($response);
 
@@ -62,13 +60,12 @@ class TokenHandler extends BaseHandler
     /**
      * @return bool true if token was sucessfully released
      */
-    public function releaseCurrentToken()
-    {
+    public function releaseCurrentToken() {
         $response = $this->client->request('release_token', [], true, false, false);
         $parsedResponse = ResponseDecoder::decodeResponse($response);
 
         $isTokenReleased = $parsedResponse[0] == 0;
-        if($isTokenReleased) {
+        if ($isTokenReleased) {
             $this->client->tokenProvider->removeCurrentSavedToken();
         }
 
@@ -80,8 +77,8 @@ class TokenHandler extends BaseHandler
      * @return mixed
      * @throws WubookException
      */
-    public function providerInfo()
-    {
+    public function providerInfo() {
         return parent::defaultRequestHandler('provider_info', [], true, false, false);
     }
+
 }

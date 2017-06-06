@@ -9,55 +9,55 @@ namespace Kamwoz\WubookAPIBundle\Model;
  */
 interface RoomInterface {
 
-    public static function createFromData(array $data): RoomInterface;
+    public function createFromData(array $data): RoomInterface ;
 
-    public function getId();
+    public function getId(): ?int;
 
-    public function setId($id);
+    public function setId(?int $id);
 
-    public function getWoodoo();
+    public function getWoodoo(): ?int;
 
-    public function getName();
+    public function getName(): ?string;
 
-    public function getBeds();
+    public function getBeds(): ?int;
 
     public function getPrice(): float;
 
-    public function getAvail();
+    public function getAvail(): ?int;
 
-    public function getShortname();
+    public function getShortname(): ?string;
 
-    public function getDefboard();
+    public function getDefboard(): ?string;
 
-    public function getNames();
+    public function getNames(): ?array;
 
-    public function getDescriptions();
+    public function getDescriptions(): ?array;
 
-    public function getBoards();
+    public function getBoards(): ?array;
 
-    public function getRoomType();
+    public function getRoomType(): ?int;
 
-    public function setWoodoo($woodoo);
+    public function setWoodoo(?int $woodoo);
 
-    public function setName($name);
+    public function setName(string $name);
 
-    public function setBeds($beds);
+    public function setBeds(int $beds);
 
     public function setPrice(float $price);
 
-    public function setAvail($avail);
+    public function setAvail(int $avail);
 
-    public function setShortname($shortname);
+    public function setShortname(string $shortname);
 
-    public function setDefboard($defboard);
+    public function setDefboard(string $defboard);
 
-    public function setNames($names);
+    public function setNames(?array $names);
 
-    public function setDescriptions($descriptions);
+    public function setDescriptions(?array $descriptions);
 
-    public function setBoards($boards);
+    public function setBoards(?array $boards);
 
-    public function setRoomType($rtype);
+    public function setRoomType(?int $rtype);
 
     public function getMinPrice(): float;
 
@@ -67,29 +67,29 @@ interface RoomInterface {
 
     public function setMaxPrice(float $maxPrice);
 
-    public function getOccupancy();
+    public function getOccupancy(): ?int;
 
-    public function getMen();
+    public function getMen(): ?int;
 
-    public function getBoard();
+    public function getBoard(): ?string;
 
-    public function getDescreasedAvailbaility();
+    public function getDescreasedAvailbaility(): ?int;
 
-    public function getRoomTypeName();
+    public function getRoomTypeName(): ?string;
 
-    public function setOccupancy($occupancy);
+    public function setOccupancy(?int $occupancy);
 
-    public function setMen($men);
+    public function setMen(int $men);
 
-    public function setBoard($board);
+    public function setBoard(?string $board);
 
-    public function setDescreasedAvailbaility($descreasedAvailbaility);
+    public function setDescreasedAvailbaility(?int $descreasedAvailbaility);
 
-    public function setRoomTypeName($rtypeName);
+    public function setRoomTypeName(string $rtypeName);
 
-    public function getChildren();
+    public function getChildren(): ?int;
 
-    public function setChildren($children);
+    public function setChildren(int $children);
 
     public function getAnchorate();
 
