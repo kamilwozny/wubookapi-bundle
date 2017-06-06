@@ -23,10 +23,6 @@ class WubookAPIExtension extends Extension
         );
         $loader->load('services.yml');
 
-        $container->setParameter('wubook_api.client_username', $config['client_username']);
-        $container->setParameter('wubook_api.client_password', $config['client_password']);
-        $container->setParameter('wubook_api.provider_key', $config['provider_key']);
-        $container->setParameter('wubook_api.property_id', $config['property_id']);
         $container->setParameter('wubook_api.url', $config['url']);
         
         //models classes

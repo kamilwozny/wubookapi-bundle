@@ -32,7 +32,7 @@ class Room implements RoomInterface {
     public function __construct() {
         $this->names = [];
         $this->descriptions = [];
-        $this->boards = [];
+        $this->boards = '';
         $this->rtype = 1;
         $this->minPrice = 0;
         $this->maxPrice = 0;
@@ -84,7 +84,7 @@ class Room implements RoomInterface {
         return $this->board;
     }
 
-    public function getBoards(): ?array {
+    public function getBoards(): ?string {
         return $this->boards;
     }
 
@@ -117,7 +117,7 @@ class Room implements RoomInterface {
     }
 
     public function getMinPrice(): float {
-        return $this->getMinPrice();
+        return $this->minPrice;
     }
 
     public function getName(): ?string {
@@ -176,7 +176,7 @@ class Room implements RoomInterface {
         return $this;
     }
 
-    public function setBoards(?array $boards) {
+    public function setBoards(?string $boards) {
         $this->boards = $boards;
         return $this;
     }
