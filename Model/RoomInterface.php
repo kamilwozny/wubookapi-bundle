@@ -9,7 +9,7 @@ namespace Kamwoz\WubookAPIBundle\Model;
  */
 interface RoomInterface {
 
-    public function createFromData(array $data): RoomInterface ;
+    public static function createFromData(array $data): RoomInterface;
 
     public function getId(): ?int;
 
@@ -33,7 +33,7 @@ interface RoomInterface {
 
     public function getDescriptions(): ?array;
 
-    public function getBoards(): ?array;
+    public function getBoards(): ?string;
 
     public function getRoomType(): ?int;
 
@@ -55,7 +55,7 @@ interface RoomInterface {
 
     public function setDescriptions(?array $descriptions);
 
-    public function setBoards(?array $boards);
+    public function setBoards(?string $boards);
 
     public function setRoomType(?int $rtype);
 

@@ -53,17 +53,21 @@ class Client
      * @param $apiUrl
      * @param $propertyId
      */
-    public function __construct(TokenProviderInterface $tokenProvider, $apiUrl, $propertyId)
+    public function __construct(TokenProviderInterface $tokenProvider, $apiUrl)
     {
         $this->tokenProvider = $tokenProvider;
         $this->apiUrl = $apiUrl;
-        $this->propertyId = $propertyId;
         
         if(!function_exists('curl_version')) {
             throw new \Exception('cURL is not installed');
         }
     }
+    
+    public function setPropertyId(string $propertyId) {
+        $this->propertyId = $propertyId;
+    }
 
+    
     /**
      * Perform request to wubook api
      *
