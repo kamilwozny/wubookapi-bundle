@@ -4,30 +4,30 @@ namespace Kamwoz\WubookAPIBundle\Model;
 
 use Kamwoz\WubookAPIBundle\Exception\WubookModelException;
 
-class Room {
+class Room implements RoomInterface {
 
-    private $id;
-    private $woodoo;
-    private $name;
-    private $beds;
-    private $price;
-    private $avail;
-    private $shortname;
-    private $defboard;
-    private $names;
-    private $descriptions;
-    private $boards;
-    private $rtype;
-    private $minPrice;
-    private $maxPrice;
-    private $occupancy;
-    private $men;
-    private $children;
-    private $board;
-    private $descreasedAvailbaility;
-    private $rtypeName;
-    private $anchorate;
-    private $subroom;
+    protected $id;
+    protected $woodoo;
+    protected $name;
+    protected $beds;
+    protected $price;
+    protected $avail;
+    protected $shortname;
+    protected $defboard;
+    protected $names;
+    protected $descriptions;
+    protected $boards;
+    protected $rtype;
+    protected $minPrice;
+    protected $maxPrice;
+    protected $occupancy;
+    protected $men;
+    protected $children;
+    protected $board;
+    protected $descreasedAvailbaility;
+    protected $rtypeName;
+    protected $anchorate;
+    protected $subroom;
 
     public function __construct() {
         $this->names = [];
@@ -44,8 +44,8 @@ class Room {
      * @param array $data
      * @return Room
      */
-    public static function createFromData(array $data): Room {
-        $room = new $this;
+    public static function createFromData(array $data): RoomInterface {
+        $room = new self();
         $room->setId($data['id'])
                 ->setName($data['name'])
                 ->setShortname($data['shortname'])
@@ -68,157 +68,141 @@ class Room {
         return $room;
     }
 
-    public function getId() {
-        return $this->id;
+    public function getAnchorate() {
+        return $this->anchorate;
     }
 
-    public function setId($id) {
-        $this->id = $id;
-        return $this;
-    }
-
-    public function getWoodoo() {
-        if (empty($this->woodoo)) {
-            throw new WubookModelException('Room Woodoo cannot be empty!');
-        }
-        return $this->woodoo;
-    }
-
-    public function getName() {
-        if (empty($this->name)) {
-            throw new WubookModelException('Room name cannot be empty!');
-        }
-        return $this->name;
-    }
-
-    public function getBeds() {
-        if (empty($this->beds)) {
-            throw new WubookModelException('Room beds cannot be empty!');
-        }
-        return $this->beds;
-    }
-
-    public function getPrice(): float {
-        if (empty($this->price)) {
-            throw new WubookModelException('Room price cannot be empty!');
-        }
-        return $this->price;
-    }
-
-    public function getAvail() {
-        if (empty($this->avail)) {
-            throw new WubookModelException('Room availbaility cannot be empty!');
-        }
+    public function getAvail(): ?int {
         return $this->avail;
     }
 
-    public function getShortname() {
-        if (empty($this->shortname)) {
-            throw new WubookModelException('Room shortname cannot be empty!');
-        }
-        return $this->shortname;
+    public function getBeds(): ?int {
+        return $this->beds;
     }
 
-    public function getDefboard() {
-        if (empty($this->defboard)) {
-            throw new WubookModelException('Room defboard cannot be empty!');
-        }
-        return $this->defboard;
+    public function getBoard(): ?string {
+        return $this->board;
     }
 
-    public function getNames() {
-        if (empty($this->names)) {
-            throw new WubookModelException('Room names cannot be empty!');
-        }
-        return $this->names;
-    }
-
-    public function getDescriptions() {
-        if (empty($this->descriptions)) {
-            throw new WubookModelException('Room descriptions cannot be empty!');
-        }
-        return $this->descriptions;
-    }
-
-    public function getBoards() {
-        if (empty($this->boards)) {
-            throw new WubookModelException('Room boards cannot be empty!');
-        }
+    public function getBoards(): ?array {
         return $this->boards;
     }
 
-    public function getRoomType() {
-        if (empty($this->rtype)) {
-            throw new WubookModelException('Room room type cannot be empty!');
-        }
-        return $this->rtype;
+    public function getChildren(): ?int {
+        return $this->children;
     }
 
-    public function setWoodoo($woodoo) {
-        $this->woodoo = $woodoo;
-        return $this;
+    public function getDefboard(): ?string {
+        return $this->defboard;
     }
 
-    public function setName($name) {
-        $this->name = $name;
-        return $this;
+    public function getDescreasedAvailbaility(): ?int {
+        return $this->descreasedAvailbaility;
     }
 
-    public function setBeds($beds) {
-        $this->beds = $beds;
-        return $this;
+    public function getDescriptions(): ?array {
+        return $this->descriptions;
     }
 
-    public function setPrice(float $price) {
-        $this->price = $price;
-        return $this;
-    }
-
-    public function setAvail($avail) {
-        $this->avail = $avail;
-        return $this;
-    }
-
-    public function setShortname($shortname) {
-        $this->shortname = $shortname;
-        return $this;
-    }
-
-    public function setDefboard($defboard) {
-        $this->defboard = $defboard;
-        return $this;
-    }
-
-    public function setNames($names) {
-        $this->names = $names;
-        return $this;
-    }
-
-    public function setDescriptions($descriptions) {
-        $this->descriptions = $descriptions;
-        return $this;
-    }
-
-    public function setBoards($boards) {
-        $this->boards = $boards;
-        return $this;
-    }
-
-    public function setRoomType($rtype) {
-        $this->rtype = $rtype;
-        return $this;
-    }
-
-    public function getMinPrice(): float {
-        return $this->minPrice;
+    public function getId(): ?int {
+        return $this->id;
     }
 
     public function getMaxPrice(): float {
         return $this->maxPrice;
     }
 
-    public function setMinPrice(float $minPrice) {
-        $this->minPrice = $minPrice;
+    public function getMen(): ?int {
+        return $this->men;
+    }
+
+    public function getMinPrice(): float {
+        return $this->getMinPrice();
+    }
+
+    public function getName(): ?string {
+        return $this->name;
+    }
+
+    public function getNames(): ?array {
+        return $this->names;
+    }
+
+    public function getOccupancy(): ?int {
+        return $this->occupancy;
+    }
+
+    public function getPrice(): float {
+        return $this->price;
+    }
+
+    public function getRoomType(): ?int {
+        return $this->rtype;
+    }
+
+    public function getRoomTypeName(): ?string {
+        return $this->rtypeName;
+    }
+
+    public function getShortname(): ?string {
+        return $this->shortname;
+    }
+
+    public function getSubroom() {
+        return $this->subroom;
+    }
+
+    public function getWoodoo(): ?int {
+        return $this->woodoo;
+    }
+
+    public function setAnchorate($anchorate) {
+        $this->anchorate = $anchorate;
+        return $this;
+    }
+
+    public function setAvail(int $avail) {
+        $this->avail = $avail;
+        return $this;
+    }
+
+    public function setBeds(int $beds) {
+        $this->beds = $beds;
+        return $this;
+    }
+
+    public function setBoard(?string $board) {
+        $this->board = $board;
+        return $this;
+    }
+
+    public function setBoards(?array $boards) {
+        $this->boards = $boards;
+        return $this;
+    }
+
+    public function setChildren(int $children) {
+        $this->children = $children;
+        return $this;
+    }
+
+    public function setDefboard(string $defboard) {
+        $this->defboard = $defboard;
+        return $this;
+    }
+
+    public function setDescreasedAvailbaility(?int $descreasedAvailbaility) {
+        $this->descreasedAvailbaility = $descreasedAvailbaility;
+        return $this;
+    }
+
+    public function setDescriptions(?array $descriptions) {
+        $this->descriptions = $descriptions;
+        return $this;
+    }
+
+    public function setId(?int $id) {
+        $this->id = $id;
         return $this;
     }
 
@@ -227,75 +211,58 @@ class Room {
         return $this;
     }
 
-    public function getOccupancy() {
-        return $this->occupancy;
-    }
-
-    public function getMen() {
-        return $this->men;
-    }
-
-    public function getBoard() {
-        return $this->board;
-    }
-
-    public function getDescreasedAvailbaility() {
-        return $this->descreasedAvailbaility;
-    }
-
-    public function getRoomTypeName() {
-        return $this->rtypeName;
-    }
-
-    public function setOccupancy($occupancy) {
-        $this->occupancy = $occupancy;
-        return $this;
-    }
-
-    public function setMen($men) {
+    public function setMen(int $men) {
         $this->men = $men;
         return $this;
     }
 
-    public function setBoard($board) {
-        $this->board = $board;
+    public function setMinPrice(float $minPrice) {
+        $this->minPrice = $minPrice;
         return $this;
     }
 
-    public function setDescreasedAvailbaility($descreasedAvailbaility) {
-        $this->descreasedAvailbaility = $descreasedAvailbaility;
+    public function setName(string $name) {
+        $this->name = $name;
         return $this;
     }
 
-    public function setRoomTypeName($rtypeName) {
+    public function setNames(?array $names) {
+        $this->names = $names;
+        return $this;
+    }
+
+    public function setOccupancy(?int $occupancy) {
+        $this->occupancy = $occupancy;
+        return $this;
+    }
+
+    public function setPrice(float $price) {
+        $this->price = $price;
+        return $this;
+    }
+
+    public function setRoomType(?int $rtype) {
+        $this->rtype = $rtype;
+        return $this;
+    }
+
+    public function setRoomTypeName(string $rtypeName) {
         $this->rtypeName = $rtypeName;
         return $this;
     }
 
-    public function getChildren() {
-        return $this->children;
-    }
-
-    public function setChildren($children) {
-        $this->children = $children;
-        return $this;
-    }
-
-    public function getAnchorate() {
-        return $this->anchorate;
-    }
-
-    public function getSubroom() {
-        return $this->subroom;
-    }
-
-    public function setAnchorate($anchorate) {
-        $this->anchorate = $anchorate;
+    public function setShortname(string $shortname) {
+        $this->shortname = $shortname;
         return $this;
     }
 
     public function setSubroom($subroom) {
         $this->subroom = $subroom;
+        return $this;
+    }
+
+    public function setWoodoo(?int $woodoo) {
+        $this->woodoo = $woodoo;
         return $this;
     }
 

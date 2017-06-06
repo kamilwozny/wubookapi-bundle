@@ -3,24 +3,38 @@
 namespace Kamwoz\WubookAPIBundle\Handler;
 
 use Kamwoz\WubookAPIBundle\Exception\WubookException;
+use Kamwoz\WubookAPIBundle\Model\RoomInterface;
 use Kamwoz\WubookAPIBundle\Model\Room;
+use ReflectionClass;
+use LogicException;
 
 class RoomHandler extends BaseHandler {
+    
+    private $model;
+    
+    public function __construct(string $model) {
+        $this->model = $model;
+    }
 
-    /**
+        /**
      * Fetch all rooms from wubook
      *
      * @return array
      * @throws WubookException
      */
     public function fetchRooms(): array {
+        $reflection = new ReflectionClass($this->model);
+        if(!$reflection->implementsInterface(RoomInterface::class)){
+            throw new LogicException('Room model must implements ' . RoomInterface::class);
+        }
+        
         $allData = parent::defaultRequestHandler('fetch_rooms', []); 
         if(empty($allData)){
             return [];
         }
         
         foreach($allData as &$roomData){
-            $roomData = Room::createFromData($roomData);
+            $roomData = $this->model::createFromData($roomData);
         }
         
         return $allData;
@@ -34,7 +48,7 @@ class RoomHandler extends BaseHandler {
      * @return int
      * @throws WubookException
      */
-    public function addRoom(Room $room): int {
+    public function addRoom(RoomInterface $room): int {
         return parent::defaultRequestHandler('new_room', [
                     $room->getWoodoo(),
                     $room->getName(),
@@ -60,7 +74,7 @@ class RoomHandler extends BaseHandler {
      * @return int
      * @throws WubookException
      */
-    public function updateRoom(Room $room): int {
+    public function updateRoom(RoomInterface $room): int {
         return parent::defaultRequestHandler('mod_room', [
                     $room->getId(),
                     $room->getName(),
@@ -85,7 +99,7 @@ class RoomHandler extends BaseHandler {
      * @return int
      * @throws WubookException
      */
-    public function deleteRoom(Room $room): int {
+    public function deleteRoom(RoomInterface $room): int {
         return parent::defaultRequestHandler('del_room', [$room->getId()]);
     }
 
@@ -95,7 +109,7 @@ class RoomHandler extends BaseHandler {
      * @return null
      * @throws WubookException
      */
-    public function roomImages(Room $room) {
+    public function roomImages(RoomInterface $room) {
         return parent::defaultRequestHandler('room_images', [$room->getId()]);
     }
 

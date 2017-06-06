@@ -10,14 +10,11 @@ services:
         class: Kamwoz\WubookAPIBundle\Handler\BaseHandler
     wubook_api.token_handler:
         class: Kamwoz\WubookAPIBundle\Handler\TokenHandler
-        arguments:
-            - '%wubook_api.client_username%'
-            - '%wubook_api.client_password%'
-            - '%wubook_api.provider_key%'
         parent: "wubook_api.base_handler"
         public: true
     wubook_api.booking_handler:
         class: Kamwoz\WubookAPIBundle\Handler\BookingHandler
+        arguments: ["@wubook_api.reservation_model"]
         public: true
         parent: "wubook_api.base_handler"
     wubook_api.token_provider:
@@ -25,6 +22,7 @@ services:
         arguments: ["%kernel.cache_dir%/wubook_api_token.yml"]
     wubook_api.room_handler:
         class: Kamwoz\WubookAPIBundle\Handler\RoomHandler
+        arguments: ["@wubook_api.room_model"]
         public: true
         parent: "wubook_api.base_handler"
     wubook_api.avaiability_handler:
