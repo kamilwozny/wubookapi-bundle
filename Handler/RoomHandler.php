@@ -22,7 +22,7 @@ class RoomHandler extends BaseHandler {
      * @return array
      * @throws WubookException
      */
-    public function fetchRooms(): array {
+    public function fetchRooms(): ?array {
         $reflection = new ReflectionClass($this->model);
         if(!$reflection->implementsInterface(RoomInterface::class)){
             throw new LogicException('Room model must implements ' . RoomInterface::class);
@@ -48,7 +48,7 @@ class RoomHandler extends BaseHandler {
      * @return int
      * @throws WubookException
      */
-    public function addRoom(RoomInterface $room): int {
+    public function addRoom(RoomInterface $room): ?int {
         return parent::defaultRequestHandler('new_room', [
                     $room->getWoodoo(),
                     $room->getName(),
@@ -74,7 +74,7 @@ class RoomHandler extends BaseHandler {
      * @return int
      * @throws WubookException
      */
-    public function updateRoom(RoomInterface $room): int {
+    public function updateRoom(RoomInterface $room): ?int {
         return parent::defaultRequestHandler('mod_room', [
                     $room->getId(),
                     $room->getName(),
@@ -99,7 +99,7 @@ class RoomHandler extends BaseHandler {
      * @return int
      * @throws WubookException
      */
-    public function deleteRoom(RoomInterface $room): int {
+    public function deleteRoom(RoomInterface $room): ?int {
         return parent::defaultRequestHandler('del_room', [$room->getId()]);
     }
 

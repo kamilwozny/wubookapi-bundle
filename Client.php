@@ -13,8 +13,8 @@ use Symfony\Component\Routing\Exception\MethodNotAllowedException;
  * Responsibility: perform request to wubook API
  * @package AppBundle\Service\WubookAPI
  */
-class Client
-{
+class Client {
+
     /**
      * @var string url target
      */
@@ -39,7 +39,7 @@ class Client
      * @var TokenProviderInterface
      */
     public $tokenProvider;
-
+    private $env;
     private $methodWhitelist = [
         'acquire_token', 'release_token', 'is_token_valid', 'provider_info',
         'fetch_rooms', 'room_images', 'new_reservation', 'fetch_bookings',
@@ -53,21 +53,24 @@ class Client
      * @param $apiUrl
      * @param $propertyId
      */
-    public function __construct(TokenProviderInterface $tokenProvider, $apiUrl)
-    {
+    public function __construct(TokenProviderInterface $tokenProvider, $apiUrl, $env) {
         $this->tokenProvider = $tokenProvider;
         $this->apiUrl = $apiUrl;
-        
-        if(!function_exists('curl_version')) {
+        $this->env = $env;
+
+        if (!function_exists('curl_version')) {
             throw new \Exception('cURL is not installed');
         }
     }
-    
+
     public function setPropertyId(string $propertyId) {
         $this->propertyId = $propertyId;
     }
-
     
+    public function isDisabled(): bool{
+        return $this->env === 'test';
+    }
+
     /**
      * Perform request to wubook api
      *
@@ -80,30 +83,33 @@ class Client
      * @return mixed|Value|string
      * @internal param bool|true $useToken true if you want use token from config
      */
-    public function request($method, array $args, $passToken = true, $passPropertyId = true, $tryAcquireNewToken = true)
-    {
-        if(!in_array($method, $this->methodWhitelist)) {
-            throw new MethodNotAllowedException($this->methodWhitelist, 'Method "'.$method.'" not allowed, allowed: ' . join(', ', $this->methodWhitelist));
+    public function request($method, array $args, $passToken = true, $passPropertyId = true, $tryAcquireNewToken = true) {
+        if ($this->isDisabled()) {
+            return null;
+        }
+
+        if (!in_array($method, $this->methodWhitelist)) {
+            throw new MethodNotAllowedException($this->methodWhitelist, 'Method "' . $method . '" not allowed, allowed: ' . join(', ', $this->methodWhitelist));
         }
 
         $requestArgs = $passToken ? [$this->tokenProvider->getToken()] : [];
-        if($passPropertyId) {
+        if ($passPropertyId) {
             $requestArgs[] = (string) $this->propertyId;
         }
 
         $encoder = new Encoder();
         $requestData = [];
-        foreach(array_merge($requestArgs, $args) as $arg) {
+        foreach (array_merge($requestArgs, $args) as $arg) {
             $requestData[] = $encoder->encode($arg);
         }
 
         $server = new \PhpXmlRpc\Client($this->apiUrl);
         $request = new Request($method, $requestData);
-        $response =  $server->send($request);
+        $response = $server->send($request);
 
         $isResponseOK = !empty($response->value()) && (int) $response->value()->me['array'][0]->scalarval() == 0;
-        if(!$isResponseOK && $tryAcquireNewToken) {
-            if($this->tokenHandler->isCurrentTokenValid()) {
+        if (!$isResponseOK && $tryAcquireNewToken) {
+            if ($this->tokenHandler->isCurrentTokenValid()) {
                 return $response;
             }
 
@@ -114,8 +120,8 @@ class Client
         return $response;
     }
 
-    public function setTokenHandler(TokenHandler $tokenHandler)
-    {
+    public function setTokenHandler(TokenHandler $tokenHandler) {
         $this->tokenHandler = $tokenHandler;
     }
+
 }
