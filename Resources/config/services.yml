@@ -4,6 +4,7 @@ services:
         arguments:
             - '@wubook_api.token_provider'
             - '%wubook_api.url%'
+            - '%kernel.environment%'
         public: true
     wubook_api.base_handler:
         class: Kamwoz\WubookAPIBundle\Handler\BaseHandler
